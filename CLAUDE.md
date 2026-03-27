@@ -1,60 +1,60 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+本文件为 Claude Code (claude.ai/code) 在本仓库工作时提供指导。
 
-## Project Overview
+## 项目概述
 
-UnShellX is a reverse engineering project to unpack and decompile **天刀助手** (TiandaoHelper), an Android app protected with **腾讯乐固 4.6.2.2 + 梆梆加固** shell protection.
+UnShellX 是一个逆向工程项目，用于对 **天刀助手** (TiandaoHelper) APK 进行脱壳和反编译。该应用使用 **腾讯乐固 4.6.2.2 + 梆梆加固** 进行保护。
 
-**Target App**: `com.tencent.gamehelper.wuxia`
-**Goal**: Extract decrypted DEX files and decompile to Java source code
+**目标应用**: `com.tencent.gamehelper.wuxia`
+**目标**: 提取解密后的 DEX 文件并反编译为 Java 源码
 
-## Common Commands
+## 常用命令
 
-### Frida Unpacking (on Android emulator/rooted device)
+### Frida 脱壳（Android 模拟器/ROOT 设备）
 ```bash
-# Start app and inject unpack script
+# 启动应用并注入脱壳脚本
 frida -U -f com.tencent.gamehelper.wuxia \
       -l frida_scripts/unshell_dexdump.js --no-pause
 
-# Extract dumped files
+# 提取脱出的文件
 adb pull /data/local/tmp/unshell/ ./dumped/
 ```
 
-### Decompile
+### 反编译
 ```bash
-# Use jadx (recommended)
+# 使用 jadx（推荐）
 jadx-gui ./dumped/classes.dex
 
-# Or apktool (may fail on shell-protected APK)
+# 或使用 apktool（加固 APK 可能失败）
 apktool d base.apk -o decoded/
 ```
 
-### Scripts
+### 脚本
 ```bash
-# Full pipeline: unpack + extract + decompile
+# 完整流程：脱壳 + 提取 + 反编译
 ./scripts/full_pipeline.sh
 
-# Quick unpack and pull
-./scripts/unshell_and_pull.sh [TIMEOUT_SECONDS]
+# 快速脱壳和提取
+./scripts/unshell_and_pull.sh [超时秒数]
 ```
 
-## Architecture
+## 项目架构
 
 ```
-frida_scripts/     # Frida JS scripts for hooking ClassLoader/DexFile/native
-scripts/           # Shell/batch automation scripts
-tools/             # Downloadable tools (jadx, apktool, dex2jar)
+frida_scripts/     # Frida JS 脚本，用于 Hook ClassLoader/DexFile/native 层
+scripts/          # Shell/Batch 自动化脚本
+tools/            # 需下载的工具（jadx, apktool, dex2jar）
 ```
 
-## Key Findings
+## 关键发现
 
-- **Shell DEX**: `classes.dex` has header `dex.035` (not real DEX)
-- **Encrypted DEX**: `assets/0OO00l111l1l` (19MB) contains the real DEX
-- **Shell SO**: `lib/arm64-v8a/libshell-super.com.tencent.gamehelper.wuxia.so`
+- **壳 DEX**: `classes.dex` 文件头为 `dex.035`（不是真正的 DEX）
+- **加密 DEX**: `assets/0OO00l111l1l` (19MB) 包含真正的 DEX
+- **壳 SO**: `lib/arm64-v8a/libshell-super.com.tencent.gamehelper.wuxia.so`
 
-## Notes
+## 注意事项
 
-- Frida scripts hook `ClassLoader.loadClass`, `DexFile`, and native `android_dlopen_ext`
-- The `.gitignore` at `~/` globally ignores `*.md` - use `git add -f` for markdown files in this repo
-- Download tools (jadx, apktool, dex2jar) to `tools/` directory - see `tools/README.md`
+- Frida 脚本 Hook 了 `ClassLoader.loadClass`、`DexFile` 和 native 层 `android_dlopen_ext`
+- `~/` 下的全局 `.gitignore` 会忽略 `*.md` 文件 - 提交 md 文件需使用 `git add -f`
+- 工具（jadx, apktool, dex2jar）需下载到 `tools/` 目录，详见 `tools/README.md`
