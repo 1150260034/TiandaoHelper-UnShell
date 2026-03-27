@@ -12,7 +12,7 @@ set TIMEOUT=%1
 if "%TIMEOUT%"=="" set TIMEOUT=60
 
 set SCRIPT_DIR=%~dp0
-set PROJECT_DIR=%SCRIPT_DIR..
+set PROJECT_DIR=%SCRIPT_DIR%..
 
 echo ==========================================
 echo UnShellX - 脱壳并提取 (Windows)

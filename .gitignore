@@ -10,7 +10,49 @@
 # 临时文件
 *.tmp
 *.log
+*.pyc
+__pycache__/
 
 # 系统文件
 .DS_Store
 Thumbs.db
+
+# APK 和 DEX 相关（体积大，不需要版本控制）
+*.apk
+*.dex
+base.apk
+
+# 编译/反编译产物
+decompiled/
+decompiled_all/
+decompiled_simple/
+decompiled_small/
+dumped/
+dumped_fixed/
+dumped_fixed_simple/
+dumped_fixed_v3/
+extracted_apk/
+
+# 工具目录（包含大型二进制文件）
+tools/
+
+# Python 修复脚本（实验性）
+analyze_dex.py
+fix_dex*.py
+
+# Frida 脚本变体（实验性，保留主版本即可）
+frida_scripts/unshell_dexdump_fixed.js
+frida_scripts/unshell_enumerate.js
+frida_scripts/unshell_simple.js
+
+# Helper 脚本（Windows 批处理）
+scripts/adb.bat
+scripts/apktool.bat
+scripts/jadx-gui.bat
+scripts/jadx.bat
+scripts/set_env.bat
+scripts/unshell_python.py
+
+# 中文文档
+*分析报告*.md
+*指南*.md

@@ -6,6 +6,7 @@ setlocal enabledelayedexpansion
 REM 配置
 set PACKAGE=com.tencent.gamehelper.wuxia
 set SCRIPT_DIR=%~dp0
+set ADB_PATH=C:\Users\%USERNAME%\AppData\Local\Android\Sdk\platform-tools\adb.exe
 
 echo ==========================================
 echo UnShellX - 乐固壳脱壳工具
@@ -21,7 +22,7 @@ if %ERRORLEVEL% neq 0 (
 
 REM 检查设备连接
 echo [*] 检查设备连接...
-adb devices | findstr "device" >nul
+%ADB_PATH% devices | findstr "device" >nul
 if %ERRORLEVEL% neq 0 (
     echo [E] 没有检测到 USB 设备!
     echo 请确保:
@@ -42,7 +43,7 @@ if "%MODE%"=="spawn" (
     echo [*] 脚本: unshell_dexdump.js
     echo.
     echo 启动中...
-    frida -U -f %PACKAGE% -l "%SCRIPT_DIR%unshell_dexdump.js" --no-pause
+    frida -U -f %PACKAGE% -l "%SCRIPT_DIR%unshell_dexdump.js"
 ) else if "%MODE%"=="attach" (
     echo [*] 模式: Attach ^(附加到已运行进程^)
     echo [*] 包名: %PACKAGE%
