@@ -669,20 +669,24 @@ SendMessage type="shutdown_request" recipient="worker" content="任务完成"
 
 ### 4. Git 提交规范（强制）
 
-**每完成一个小功能，都需要验证通过后提交 git！**
+**所有提交前必须先经过 git-reviewer 审查！**
 
 ```bash
-# 功能完成后的提交流程
+# 提交流程
 1. 功能代码修改完成
-2. 本地验证通过
-3. git add <修改的文件>
-4. git commit -m "feat: 完成XXX功能"
-5. git push（如需要）
+2. 发送给 git-reviewer 审查
+3. 审查通过后才能 commit
+4. git add <修改的文件>
+5. git commit -m "feat: 完成XXX功能"
+6. git push（如需要）
 ```
 
 **type 类型**：feat(新功能), fix(修复), refactor(重构), docs(文档), chore(杂项)
 
-**禁止**：一次性提交大量修改、不经验证就提交、commit message 写 "update"
+**禁止**：
+- ❌ 不经审查直接提交
+- ❌ 一次性提交大量修改
+- ❌ commit message 写 "update"
 
 ### 5. 协作检查清单
 
