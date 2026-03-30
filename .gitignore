@@ -56,3 +56,4 @@ scripts/unshell_python.py
 # 中文文档
 *分析报告*.md
 *指南*.md
+.claude/
