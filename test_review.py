@@ -2,9 +2,11 @@ def calculate(a, b):
     """Calculate sum of two numbers."""
     return a + b
 
+
 def multiply(a, b):
     """Multiply two numbers."""
     return a * b
+
 
 # Test
 if __name__ == "__main__":
